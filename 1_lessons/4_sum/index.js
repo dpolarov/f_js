@@ -6,8 +6,8 @@ while (true) {
   count++;
   sum += value;
   mean = sum / count;
-  console.log('arithmetic mean: ' + mean + ' Count number: ' + count);
+  console.log('Sum: ' + sum + 'Arithmetic mean: ' + mean + ' Count number: ' + count);
 }
 
-alert( 'arithmetic mean: ' + mean + ' Count number: ' + count);
+alert('Sum: ' + sum + 'Arithmetic mean: ' + mean + ' Count number: ' + count);
 
