@@ -1,8 +1,8 @@
 ﻿var sum = 0;
-var count = 0;
+let count = 0;
 while (true) {
-  var value = +prompt("input numer", '');
-  if (!value) break; // (*)
+  let value = +prompt("input numer", '');
+  if (isNaN(value)) break;
   count++;
   sum += value;
   mean = sum / count;

@@ -1,8 +1,8 @@
 ﻿
-var date_invalid = true, data_input='', dd=0, mm=0, yy=0;
+let date_invalid = true, data_input='', dd=0, mm=0, yy=0;
 
 do { 
-  var data_input = prompt("Enter Date in format MM/DD/YYYY", ['05/30/2006']);
+  let data_input = prompt("Enter Date in format MM/DD/YYYY", ['05/30/2006']);
   data_split=data_input.split('/');
 //  console.log(data_split.length);
 //  console.log(data_split[0],data_split[1],data_split[2]);
@@ -16,8 +16,8 @@ do {
   date_invalid=false;
 } while (date_invalid);
 
-  console.log(`${data_split[1]}/${data_split[0]}/${data_split[2]}`);
-  alert(`${data_split[1]}/${data_split[0]}/${data_split[2]}`);
+  console.log(`${data_split[1]}.${data_split[0]}.${data_split[2]}`);
+  alert(`${data_split[1]}.${data_split[0]}.${data_split[2]}`);
 
 
 

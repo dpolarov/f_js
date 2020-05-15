@@ -1,6 +1,6 @@
 ﻿
-var str = prompt("input word", 'Loremipsum');
-var new_str='';
+let str = prompt("input word", 'Loremipsum');
+let new_str='';
 //простой метод
 str1=Array.from(str).reverse().join('');
 console.log(str1);

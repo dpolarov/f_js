@@ -1,7 +1,7 @@
-//var side = 13;
-var side = prompt("Side length", [100]);
+//let side = 13;
+let side = prompt("Side length", [100]);
 
-var area = (side**2 * Math.sqrt(3) ) /4;
+let area = (side**2 * Math.sqrt(3) ) /4;
 
 console.log('Area:'+ area);
 alert('Area:'+ area)
