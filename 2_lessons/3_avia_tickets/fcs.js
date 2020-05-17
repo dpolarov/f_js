@@ -161,6 +161,16 @@ function buyTicket(flightName, buyTime, fullName, type = 0) {
  * @returns boolean успешна ли регистрация
  */
 function eRegistration(ticket, fullName, nowTime) {
+  let flight=ticket.split(/-/)[0]; 
+  if (!flights[flight]) throw new Error('нет такого рейса');
+  if (flights[flight].tickets.findIndex(item => item.id == ticket ) < 0) throw new Error('нет такого билета');
+  if (flights[flight].tickets.findIndex(item => item.fullName == fullName ) < 0) throw new Error('не верная фамилия');
+  if (nowTime < (flights[flight].registartionEnds - (60 * 60 * 5 * 1000))) throw new Error('Регистрация не началась');
+  if (nowTime > (flights[flight].registartionEnds - (60 * 60 * 1000))) throw new Error('Регистрация закончилась');
+  flights[flight].tickets[flights[flight].tickets.findIndex(item => item.id == ticket )].registrationTime=nowTime;
+
+  return true;
+
 
 }
 
@@ -199,11 +209,6 @@ function flightReport(flight, nowTime) {
   return report;  
 }
 
-let a = buyTicket('BH118', makeTime(5, 10), 'Petrov I. I.');
-//console.log(a);
-
-a = buyTicket('BH118', makeTime(5, 10), 'Sidorov I. I.');
-//console.log(a);
 
 function displayFlights() {
     console.log('*** List of all flights ***');
@@ -222,9 +227,23 @@ function flightDetails(flightName) {
     console.table(flight);
     console.table(flight.tickets);
 }
-console.table(flightReport('BH118',makeTime(7, 0)));
 
-console.table(flightReport('BH118',makeTime(11, 0)));
-console.table(flightReport('BH118',makeTime(12, 0)));
-console.table(flightReport('BH118',makeTime(16, 0)));
+// console.table(flightReport('BH118',makeTime(7, 0)));
+
+// console.table(flightReport('BH118',makeTime(11, 0)));
+// console.table(flightReport('BH118',makeTime(12, 0)));
+// console.table(flightReport('BH118',makeTime(16, 0)));
+  let newticket = buyTicket('BH118', makeTime(5, 10), 'Petrov I. I.');
+  newticket = buyTicket('BH118', makeTime(5, 10), 'Sidorov I. I.');
+  console.table(newticket);
+
+  eRegistration('BH118-B50', 'Ivanov I. I.', makeTime(13, 0));
+  eRegistration(newticket.id, newticket.fullName, makeTime(12, 0));
+  console.table(flightReport('BH118',makeTime(11, 0)));
+  console.table(flightReport('BH118',makeTime(16, 0)));
+ 
+
+  console.table(flights);
+ 
+//eRegistration('BH118-B50', 'Ianov I. I.', makeTime(16, 0));
 
