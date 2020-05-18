@@ -162,12 +162,16 @@ function buyTicket(flightName, buyTime, fullName, type = 0) {
  */
 function eRegistration(ticket, fullName, nowTime) {
   let flight=ticket.split(/-/)[0]; 
-  if (!flights[flight]) throw new Error('нет такого рейса');
-  if (flights[flight].tickets.findIndex(item => item.id == ticket ) < 0) throw new Error('нет такого билета');
-  if (flights[flight].tickets.findIndex(item => item.fullName == fullName ) < 0) throw new Error('не верная фамилия');
-  if (nowTime < (flights[flight].registartionEnds - (60 * 60 * 5 * 1000))) throw new Error('Регистрация не началась');
-  if (nowTime > (flights[flight].registartionEnds - (60 * 60 * 1000))) throw new Error('Регистрация закончилась');
-  flights[flight].tickets[flights[flight].tickets.findIndex(item => item.id == ticket )].registrationTime=nowTime;
+  let current = flights[flight];
+  if (!current) throw new Error('нет такого рейса');
+  if (!current.tickets.find(item => item.id == ticket)) throw new Error('нет такого билета');
+  if (!current.tickets.find(item => item.fullName == fullName )) throw new Error('не верная фамилия');
+  if (nowTime < (current.registartionEnds - (60 * 60 * 5 * 1000))) throw new Error('Регистрация не началась');
+  if (nowTime > (current.registartionEnds - (60 * 60 * 1000))) throw new Error('Регистрация закончилась');
+
+  //  flights[flight].tickets[flights[flight].tickets.findIndex(item => item.id == ticket )].registrationTime=nowTime;
+  // да так намного понятнее,спасибо
+  current.tickets.find(itm => itm.id == ticket).registrationTime=nowTime;
 
   return true;
 
@@ -190,21 +194,29 @@ function flightReport(flight, nowTime) {
   let fl_record = {};
   if (!flights[flight]) throw new Error('нет такого рейса');
   fl_record=flights[flight];
-  console.table(fl_record);
-  report.flight = fl_record.name;                              
-  report.registration = ((nowTime > fl_record.registrationStarts) & nowTime < fl_record.registartionEnds) ? true : false; 
-  report.complete = nowTime > fl_record.registartionEnds ? true : false; 
+  report.flight = fl_record.name;     
+  //                        
+  // report.registration = ((nowTime > fl_record.registrationStarts) & nowTime < fl_record.registartionEnds) ? true : false;
+  // записывваем просто результат сравнения
+  report.registration = ((nowTime > fl_record.registrationStarts) & nowTime < fl_record.registartionEnds);
+  report.complete = nowTime > fl_record.registartionEnds; 
   report.countOfSeats =  fl_record.seats;
   // не совсем понял момент в ТЗ , ищем вобще билеты или билеты с датой и регистрацией до nowTime ?
   // Вариант 1 ищем все 
   report.reservedSeats = fl_record.tickets.length;
-  report.registeredSeats = fl_record.tickets.reduce((a, b) => a + (b.registrationTime > 0),0);
+  // через филтер ?
+  //report.registeredSeats = fl_record.tickets.reduce((a, b) => a + (b.registrationTime > 0),0);
+  report.registeredSeats = fl_record.tickets.filter(id => id.registrationTime > 0).length;
+
 
   // Вариант 2 ищем все кто до указанного времени
   // ищем всех кто купил до 
   report.reservedSeats = fl_record.tickets.filter(ticket_id => ticket_id.buyTime <= nowTime).length;
-  // ищем всех кто зарегистриволся до  и вообще зарегстрировался 
-  report.registeredSeats = fl_record.tickets.filter(ticket_id => (ticket_id.registrationTime <= nowTime & ticket_id.registrationTime !== null)).reduce((a, b) => a + (b.registrationTime > 0),0);
+  // ищем всех кто зарегистриволся до и вообще зарегстрировался 
+
+  //report.registeredSeats = fl_record.tickets.filter(ticket_id => (ticket_id.registrationTime <= nowTime & ticket_id.registrationTime !== null)).reduce((a, b) => a + (b.registrationTime > 0),0);
+  //упрощаем  так как уже отфильтровали по null
+  report.registeredSeats = fl_record.tickets.filter(ticket_id => (ticket_id.registrationTime <= nowTime & ticket_id.registrationTime !== null)).length;
 
   return report;  
 }
@@ -235,14 +247,13 @@ function flightDetails(flightName) {
 // console.table(flightReport('BH118',makeTime(16, 0)));
   let newticket = buyTicket('BH118', makeTime(5, 10), 'Petrov I. I.');
   newticket = buyTicket('BH118', makeTime(5, 10), 'Sidorov I. I.');
-  console.table(newticket);
+//  console.table(newticket);
 
   eRegistration('BH118-B50', 'Ivanov I. I.', makeTime(13, 0));
   eRegistration(newticket.id, newticket.fullName, makeTime(12, 0));
   console.table(flightReport('BH118',makeTime(11, 0)));
   console.table(flightReport('BH118',makeTime(16, 0)));
  
-
   console.table(flights);
  
 //eRegistration('BH118-B50', 'Ianov I. I.', makeTime(16, 0));
