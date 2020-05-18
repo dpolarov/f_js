@@ -166,6 +166,7 @@ function eRegistration(ticket, fullName, nowTime) {
   if (!current) throw new Error('нет такого рейса');
   if (!current.tickets.find(item => item.id == ticket)) throw new Error('нет такого билета');
   if (!current.tickets.find(item => item.fullName == fullName )) throw new Error('не верная фамилия');
+  if (current.tickets.find(itm => itm.id == ticket).registrationTime >0) throw new Error('Билет уже активирован');
   if (nowTime < (current.registartionEnds - (60 * 60 * 5 * 1000))) throw new Error('Регистрация не началась');
   if (nowTime > (current.registartionEnds - (60 * 60 * 1000))) throw new Error('Регистрация закончилась');
 
@@ -198,7 +199,7 @@ function flightReport(flight, nowTime) {
   //                        
   // report.registration = ((nowTime > fl_record.registrationStarts) & nowTime < fl_record.registartionEnds) ? true : false;
   // записывваем просто результат сравнения
-  report.registration = ((nowTime > fl_record.registrationStarts) & nowTime < fl_record.registartionEnds);
+  report.registration = ((nowTime > fl_record.registrationStarts) && nowTime < fl_record.registartionEnds);
   report.complete = nowTime > fl_record.registartionEnds; 
   report.countOfSeats =  fl_record.seats;
   // не совсем понял момент в ТЗ , ищем вобще билеты или билеты с датой и регистрацией до nowTime ?
@@ -216,7 +217,7 @@ function flightReport(flight, nowTime) {
 
   //report.registeredSeats = fl_record.tickets.filter(ticket_id => (ticket_id.registrationTime <= nowTime & ticket_id.registrationTime !== null)).reduce((a, b) => a + (b.registrationTime > 0),0);
   //упрощаем  так как уже отфильтровали по null
-  report.registeredSeats = fl_record.tickets.filter(ticket_id => (ticket_id.registrationTime <= nowTime & ticket_id.registrationTime !== null)).length;
+  report.registeredSeats = fl_record.tickets.filter(ticket_id => (ticket_id.registrationTime <= nowTime && ticket_id.registrationTime !== null)).length;
 
   return report;  
 }
@@ -251,6 +252,8 @@ function flightDetails(flightName) {
 
   eRegistration('BH118-B50', 'Ivanov I. I.', makeTime(13, 0));
   eRegistration(newticket.id, newticket.fullName, makeTime(12, 0));
+  eRegistration(newticket.id, newticket.fullName, makeTime(12, 0));
+
   console.table(flightReport('BH118',makeTime(11, 0)));
   console.table(flightReport('BH118',makeTime(16, 0)));
  
