@@ -7,8 +7,7 @@ function function_sum(arrs){
   let sum = new_arr.reduce((sum, current) => sum + current, 0);
   let count =  new_arr.length;
 
-  let result_object={count,sum};
-  return result_object;
+  return {count,sum};
 }
 
 let res_obj = function_sum(num);
