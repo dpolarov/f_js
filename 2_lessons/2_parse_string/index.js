@@ -6,11 +6,9 @@ function parse_word(input_str){
   let arrs_str = input_str.split(/[\s+]/);
 
   let result_obj = arrs_str.map(function(itm, index, array) {
-    let s={};
-    s.word = itm;
-    s.sum = itm.split('').reduce((a, current) => a + current.charCodeAt(0), 0);
-     
-    return s;
+    const word = itm;
+    const sum = itm.split('').reduce((a, current) => a + current.charCodeAt(0), 0);
+    return {word, sum};
   });
 
   return result_obj;

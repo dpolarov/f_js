@@ -217,7 +217,7 @@ function flightReport(flight, nowTime) {
 
   //report.registeredSeats = fl_record.tickets.filter(ticket_id => (ticket_id.registrationTime <= nowTime & ticket_id.registrationTime !== null)).reduce((a, b) => a + (b.registrationTime > 0),0);
   //упрощаем  так как уже отфильтровали по null
-  report.registeredSeats = fl_record.tickets.filter(ticket_id => (ticket_id.registrationTime <= nowTime && ticket_id.registrationTime !== null)).length;
+  report.registeredSeats = fl_record.tickets.filter(ticket_id => ticket_id.registrationTime <= nowTime && ticket_id.registrationTime !== null).length;
 
   return report;  
 }
