@@ -10,26 +10,20 @@
 
 function sumOfPositive(arr) {
  
-  //Не понятно по ТЗ было ;(
-  //Нужно проверять входные данные или нет ?
-  //   if (! Array.isArray(arr)) { return 'Invalid data'};
-  // в описании возращаемых вариантов не было строки или чего либо другого кроме обьекта { count, sum }
+  if (! Array.isArray(arr)) throw new Error('Invalid data');;
+  
+  const newArr = arr.filter(id => +id > 0);
 
-  let sum = arr.filter(id => +id > 0).reduce((sum, current) => sum + +current, 0);
-  // Еще раз вычисление 
-  let count = arr.filter(id => id > 0).length;
-  //  Что лучше экономить ? Память или процесор ?
-  //  Или  определяем новую перменную  ?
-  //  let new_arr=arrs.filter(id => id  < 0);
-  //  Так длинее  
+  let sum = newArr.reduce((sum, current) => sum + +current, 0);
+  let count = newArr.length;
 
-  return { ...{ count, sum } };
+  return { count, sum } ;
 
 }
 
-let res_obj = sumOfPositive(num);
+//let res_obj = sumOfPositive(num);
 
- console.log(res_obj);
+// console.log(res_obj);
 
 
  

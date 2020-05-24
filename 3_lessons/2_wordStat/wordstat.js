@@ -21,7 +21,7 @@ function wordStat(text){
 
   const arrStr = text.replace(/\s+/g , " ").trim().split(' ');
 
-  const result_obj = arrStr.map((itm, index, array )=> {
+  const result_obj = arrStr.map((itm )=> {
     const word = itm;
     const sum = strCharSum(itm);
     return {word, sum};
@@ -30,6 +30,6 @@ function wordStat(text){
   return result_obj;
 }
 
-
+//console.log(wordStat('MamA MIA'));
 
 
