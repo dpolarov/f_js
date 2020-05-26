@@ -250,6 +250,10 @@ function flightDetails(flight, nowTime) {
   let tickets = flight.tickets;
   console.table(report);
   console.table(tickets);
+  const template = document.getElementById('template');
+  const copy = template.content.cloneNode(true);
+  const container = document.getElementById('flight-details');
+  container.append(copy);
 
 
 }
