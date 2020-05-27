@@ -236,6 +236,7 @@ function flightReport(flight,nowTime) {
         console.warn('Flight not found');
         return;
     }
+  report.flightName = flight.name;     
   report.registration = ((nowTime > flight.registrationStarts) && nowTime < flight.registartionEnds);
   report.complete = nowTime > flight.registartionEnds; 
   report.countOfSeats =  flight.seats;
@@ -246,16 +247,29 @@ function flightReport(flight,nowTime) {
 
 function flightDetails(flight, nowTime) {
 
-  let report = flightReport(flight , nowTime);
-  let tickets = flight.tickets;
-  console.table(report);
-  console.table(tickets);
-  const template = document.getElementById('template');
-  const copy = template.content.cloneNode(true);
+  const report = flightReport(flight , nowTime);
+  const tickets = flight.tickets;
   const container = document.getElementById('flight-details');
-  container.append(copy);
+  
+  for (let [key, value] of Object.entries(report)) {
+            const li = document.createElement('li');
+            container.append(li);
+            const text = document.createTextNode(`${key}: ${value}`);
+            li.append(text);
+   }
+  tickets.forEach(function(ticket){
+        const ul = document.createElement('ul');
 
+        for (let [key, value] of Object.entries(ticket)) {
+            const li = document.createElement('li');
+            ul.append(li);
+            const text = document.createTextNode(`${key}: ${value}`);
+            li.append(text);
+        }
+      container.append(ul);
 
+    }
+  );
 }
 
 // console.table(flightReport('BH118',makeTime(7, 0)));
