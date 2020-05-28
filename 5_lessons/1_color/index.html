@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>events</title>
+    <style>
+        table {
+            display: block;
+            margin: 20px auto;
+            max-width: 200px;
+        }
+
+        table tr td {
+            width: 10px;
+            height: 10px;
+            border: 1px solid gray;
+        }
+
+        #colorPicker {
+            width: 180px;
+            height: 186px;
+            border: 2px solid;
+            display: block;
+        }
+
+        #colorSelected {
+            width: 180px;
+            height: 20px;
+            border: 2px solid;
+
+        }
+
+        div {
+            margin: 0;
+            width: 5px;
+            height: 5px;
+            float: left;
+            border: 0px;
+        }
+
+        .break {
+            flex-basis: 100%;
+            width: 100%;
+            height: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div id='colorSelected'></div>
+    <div class="break"></div>
+    <div id='colorPicker'></div>
+
+    <table id='holst' cellspacing="0" cellpadding="0">
+
+    </table>
+
+
+    <script>
+        'use strict';
+        const table = document.getElementById('holst');
+        const div = document.getElementById('colorPicker');
+        const divSelected = document.getElementById('colorSelected');
+        let bg = 0;
+        table.addEventListener('click', click);
+        table.addEventListener('mouseover', click);
+
+
+        div.addEventListener('click', clickDiv);
+
+        function tableGen(cells = 10) {
+
+            for (let tdStep = 0; tdStep < cells; tdStep++) {
+                let tr = document.createElement('tr');
+                for (let trStep = 0; trStep < cells; trStep++) {
+                    let td = document.createElement('td');
+                    tr.appendChild(td);
+                }
+                table.appendChild(tr);
+            }
+
+        }
+
+        /**
+         * @param {MouseEvent} event
+         */
+        function click(event) {
+            //  console.log(event.type, event.target);
+
+            if (event.target.tagName !== 'TD')
+                return;
+            if ((event.shiftKey) && (event.type == 'mouseover'))
+
+                event.target.style.backgroundColor = bg;
+
+            if (event.type == 'click')
+                event.target.style.backgroundColor = bg;
+
+            console.log(event);
+            // console.log(event.offsetX, event.offsetY)
+            //console.log(event.target.dataset.code);
+        }
+
+        /**
+         * @param {MouseEvent} event
+         */
+        function clickDiv(event) {
+            console.log(event.type, event.target);
+
+            if (event.target.tagName !== 'DIV')
+                return;
+
+
+            bg = event.target.style.backgroundColor;
+            divSelected.style.backgroundColor = bg;
+            // console.log(this);
+            // console.log(event.offsetX, event.offsetY)
+            console.log(event.target.dataset.rgb);
+        }
+
+
+        function createColorPalette(value) {
+            let v = 255 / value;
+            for (let rStep = 0, r = 0; rStep < v; rStep++) {
+                for (let gStep = 0, g = 0; gStep < v; gStep++) {
+                    for (let bStep = 0, b = 0; bStep < v; bStep++) {
+                        createDiv(r, g, b);
+                        b += value;
+                    }
+                    g += value;
+                }
+                r += value;
+            }
+            //    createDiv(r,g,b);
+        }
+
+        function createDiv(r, g, b) {
+            const a = document.createElement('div');
+            a.style.background = 'rgb(' + r + ',' + g + ',' + b + ')';
+            a.dataset.rgb = '#' + r.toString(16) + '' + g.toString(16) + '' + b.toString(16);
+
+            div.appendChild(a);
+        }
+        tableGen(20);
+        createColorPalette(25);
+    </script>
+</body>
+
+</html>
