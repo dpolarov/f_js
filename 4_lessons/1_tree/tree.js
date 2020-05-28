@@ -1,44 +1,35 @@
 "use strict";
 
 
-function getChild1(element, position){
-    position++;
-    element.childNodes.forEach(function( child ){
-     
-      if ( child.nodeName ) console.log('>'.padStart(position, '-')  + child.nodeType + ' ' + child.nodeName, child.nodeValue);
-      if ( child.childNodes.length) getChild1(child, position);
-       
-   });
-   
+function getChildVariant1(element, nesting = 0) {
+  nesting++;
+  element.childNodes.forEach(function (child) {
+    if (child.nodeName) console.log('>'.padStart(nesting, '-') + child.nodeType + ' ' + child.nodeName, child.nodeValue);
+    if (child.childNodes.length) getChildVariant1(child, nesting);
+  });
+
 }
 
-function getChild2(element, position){
-    position++;
-    for (let child = element.firstChild; child; child = child.nextSibling) {
-      if ( child.nodeName ) console.log('>'.padStart(position, '-')  + child.nodeType + ' ' + child.nodeName, child.nodeValue);
-      getChild2(child, position);
-    }
+function getChildVariant2(element, nesting = 0) {
+  nesting++;
+  for (let child = element.firstChild; child; child = child.nextSibling) {
+    if (child.nodeName) console.log('>'.padStart(nesting, '-') + child.nodeType + ' ' + child.nodeName, child.nodeValue);
+    getChildVariant2(child, nesting);
+  }
 }
 
-function getChild2(element, position){
-    position++;
-    for (let child = element.firstChild; child; child = child.nextSibling) {
-      if ( child.nodeName ) console.log('>'.padStart(position, '-')  + child.nodeType + ' ' + child.nodeName, child.nodeValue);
-      getChild2(child, position);
-    }
-}
 
-function getChild3(element, position){
-    position++;
-        for (let child of element.childNodes){
-          getChild3(child, position);
-          if ( child.nodeName ) console.log('>'.padStart(position, '-')  + child.nodeType + ' ' + child.nodeName, child.nodeValue);
-        }
-    }
+function getChildVariant3(element, nesting = 0) {
+  nesting++;
+  for (let child of element.childNodes) {
+    getChildVariant3(child, nesting);
+    if (child.nodeName) console.log('>'.padStart(nesting, '-') + child.nodeType + ' ' + child.nodeName, child.nodeValue);
+  }
+}
 
 //console.table(getChild(document.body));
-getChild1(document,0);
-getChild2(document,0);
-getChild3(document,0);
+getChildVariant1(document);
+getChildVariant2(document);
+getChildVariant3(document);
 
 //console.table(document.body);
