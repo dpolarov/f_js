@@ -68,6 +68,8 @@ function buyTicket(flights, flightName, buyTime, fullName, type = 0) {
 
     if (!flight)
         throw new Error('Flight not found');
+    if (!fullName) 
+        throw new Error('Full name is nul');
 
     if (flight.tickets.length >= flight.seats)
         throw new Error('No seats available');
