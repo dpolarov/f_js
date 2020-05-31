@@ -2,13 +2,13 @@ const formBuyTicket = document.getElementById('e-buyTicket-form');
 const flightsList = document.getElementById('flightsList');
 
 
-formBuyTicket.addEventListener('submit', submitHandlerTicket);
+formBuyTicket.addEventListener('submit', submitHandlerBuyTicket);
 
 /**
  * Обработчик отправки формы
  * @param {KeyboardEvent} event
  */
-function submitHandlerTicket(event) {
+function submitHandlerBuyTicket(event) {
     // прерываем всплытие что бы форма не отправлялась
     event.preventDefault();
 

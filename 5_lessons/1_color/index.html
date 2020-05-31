@@ -88,15 +88,9 @@
         function click(event) {
             //  console.log(event.type, event.target);
 
-            if (event.target.tagName !== 'TD')
-                return;
-            if ((event.shiftKey) && (event.type == 'mouseover'))
-
-                event.target.style.backgroundColor = bg;
-
-            if (event.type == 'click')
-                event.target.style.backgroundColor = bg;
-
+            if (event.target.tagName !== 'TD') return;
+            if ((event.shiftKey) && (event.type == 'mouseover'))  event.target.style.backgroundColor = bg;
+            if (event.type == 'click') event.target.style.backgroundColor = bg;
             console.log(event);
             // console.log(event.offsetX, event.offsetY)
             //console.log(event.target.dataset.code);
@@ -108,8 +102,7 @@
         function clickDiv(event) {
             console.log(event.type, event.target);
 
-            if (event.target.tagName !== 'DIV')
-                return;
+            if (event.target.tagName !== 'DIV') return;
 
 
             bg = event.target.style.backgroundColor;
@@ -138,7 +131,6 @@
         function createDiv(r, g, b) {
             const a = document.createElement('div');
             a.style.background = 'rgb(' + r + ',' + g + ',' + b + ')';
-            a.dataset.rgb = '#' + r.toString(16) + '' + g.toString(16) + '' + b.toString(16);
 
             div.appendChild(a);
         }
