@@ -1,65 +1,64 @@
-'use strict';
-/**
- * @param {x,y} position
- * @param {count} максимальное количесво судов в доке (вместимость)
- * @param {sea} sea
+п»ї  'use strict';
+  /**
+   * @param {x,y} position
+   * @param {count} РјР°РєСЃРёРјР°Р»СЊРЅРѕРµ РєРѕР»РёС‡РµСЃРІРѕ СЃСѓРґРѕРІ РІ РґРѕРєРµ (РІРјРµСЃС‚РёРјРѕСЃС‚СЊ)
+   * @param {sea} sea
 
- */
-function Dock(x,y, count , sea) {
+   */
+  function Dock(x, y, count, sea) {
     this.name = 'Position' + x + y;
-    this.shipInDock =[];
+    this.shipInDock = [];
     this.volume = count;
 
     this.position = {
-        x: x,
-        y: x
+      x: x,
+      y: x
     };
 
-//    this.position.y = y
-    
-  if  (sea.docs[this.name]) 
-                   throw new Error('Docs already exist');
-  sea.docs[this.name]=this; 
-  
-  this.moor = function(ship) {
-    if (this.shipInDock.length >= this.volume )
-           throw new Error('Dock crowded');
- 
-    if (this.shipInDock[ship.name])
-           throw new Error('Ship already in dock');
-    console.log(this.position.x, ship.position.x);
-    if ( !(this.position.x === ship.position.x  || this.position.y === ship.position.y))
-         throw new Error('Ship not in near dock');
+    //    this.position.y = y
 
-    if (!ship.isAnchorDroped )
-         throw new Error('is Anchor drop');
+    if (sea.docs[this.name])
+      throw new Error('Docs already exist');
+    sea.docs[this.name] = this;
 
-    // Можно сделать функцию лоцман , которая приведет корабль к доку . Ну и заодно таможню,эко инспекцию ,санпидем 
-    //станцию , пограничников  и все это ;)
+    this.moor = function (ship) {
+      if (this.shipInDock.length >= this.volume)
+        throw new Error('Dock crowded');
 
-    // if  !ship.isAnchorDroped .... 
-    // ship.moveTo({x: this.position.x , y:this.position.y});
-    // ship.dropAnchor
-    ship.dropAnchor;
-    this.volume++;
-    this.shipInDock[ship.name]=ship;
+      if (this.shipInDock[ship.name])
+        throw new Error('Ship already in dock');
+      console.log(this.position.x, ship.position.x);
+      if (!(this.position.x === ship.position.x || this.position.y === ship.position.y))
+        throw new Error('Ship not in near dock');
 
-  }
-  this.unmoor = function(ship) {
- 
-    if (!this.shipInDock[ship.name])
-           throw new Error('Ship not in dock');
+      if (!ship.isAnchorDroped)
+        throw new Error('is Anchor drop');
 
-    if (!ship.isAnchorDroped )
-         throw new Error('is Anchor down');
+      // РњРѕР¶РЅРѕ СЃРґРµР»Р°С‚СЊ С„СѓРЅРєС†РёСЋ Р»РѕС†РјР°РЅ , РєРѕС‚РѕСЂР°СЏ РїСЂРёРІРµРґРµС‚ РєРѕСЂР°Р±Р»СЊ Рє РґРѕРєСѓ . РќСѓ Рё Р·Р°РѕРґРЅРѕ С‚Р°РјРѕР¶РЅСЋ,СЌРєРѕ РёРЅСЃРїРµРєС†РёСЋ ,СЃР°РЅРїРёРґРµРј 
+      //СЃС‚Р°РЅС†РёСЋ , РїРѕРіСЂР°РЅРёС‡РЅРёРєРѕРІ  Рё РІСЃРµ СЌС‚Рѕ ;)
 
-    // тут тоже нужна функция лоцман которая заправит судно и выгонит его на рейд 
+      // if  !ship.isAnchorDroped .... 
+      // ship.moveTo({x: this.position.x , y:this.position.y});
+      // ship.dropAnchor
+      ship.dropAnchor;
+      this.volume++;
+      this.shipInDock[ship.name] = ship;
 
-    ship.upAnchor;
-    this.volume--;
-    delete this.shipInDock[ship.name];
+    }
+    this.unmoor = function (ship) {
 
-  }
- 
-};
+      if (!this.shipInDock[ship.name])
+        throw new Error('Ship not in dock');
 
+      if (!ship.isAnchorDroped)
+        throw new Error('is Anchor down');
+
+      // С‚СѓС‚ С‚РѕР¶Рµ РЅСѓР¶РЅР° С„СѓРЅРєС†РёСЏ Р»РѕС†РјР°РЅ РєРѕС‚РѕСЂР°СЏ Р·Р°РїСЂР°РІРёС‚ СЃСѓРґРЅРѕ Рё РІС‹РіРѕРЅРёС‚ РµРіРѕ РЅР° СЂРµР№Рґ 
+
+      ship.upAnchor;
+      this.volume--;
+      delete this.shipInDock[ship.name];
+
+    }
+
+  };

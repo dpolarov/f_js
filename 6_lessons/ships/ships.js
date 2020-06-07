@@ -11,8 +11,8 @@ function Ship(name, model, sea) {
     };
     this.speed = 0;
     this.distance = 0;
-    if (sea.ships[name] )
-                   throw new Error('Ship already exist');
+    if (sea.ships[name])
+        throw new Error('Ship already exist');
 
     sea.ships[name] = this;
 
@@ -76,6 +76,5 @@ function Ship(name, model, sea) {
     this.upAnchor = () => {
 
         _isAnchorDroped = false;
-    };  
+    };
 }
-
